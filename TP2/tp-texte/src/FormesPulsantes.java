@@ -5,8 +5,8 @@ import java.util.Random;
  * @author Guillaume Huard
  */
 public class FormesPulsantes {
-	final static int nbFormes = 4;
-	final static int nbObjets = 5;
+	final static int nbFormes = 8;
+	final static int nbObjets = 3;
 	final static int etapesPulsations = 20;
 	final static int amplitudePulsation = 20;
 	final static int delai = 100;
@@ -14,13 +14,22 @@ public class FormesPulsantes {
 	static Forme creerForme(int type, MachineTrace m) {
 		switch (type) {
 		case 0:
-			return new Cercle(m);
+			return new CarrePulsant(m, 100, etapesPulsations, amplitudePulsation);
 		case 1:
 			return new Carre(m);
 		case 2:
-			return new Triangle(m);
+			return new TrianglePulsant(m, 100, etapesPulsations, amplitudePulsation);
 		case 3:
+			return new Triangle(m);
+		case 4:
+			return new LosangePulsant(m, 100, etapesPulsations, amplitudePulsation);
+		case 5:
 			return new Losange(m);
+		case 6:
+			return new CerclePulsant(m, 100, etapesPulsations, amplitudePulsation);
+		case 7:
+			return new Cercle(m);
+		
 		default:
 			throw new RuntimeException("Forme Inconnue");
 		}
@@ -29,7 +38,6 @@ public class FormesPulsantes {
 	public static void main(String[] args) {
 		MachineTrace m;
 		Forme[] f;
-		int[] tailles;
 		Random r;
 
 		m = new MachineTrace(400, 400);
@@ -37,21 +45,17 @@ public class FormesPulsantes {
 		m.rafraichissementAutomatique(false);
 
 		f = new Forme[nbObjets];
-		tailles = new int[f.length];
 		r = new Random();
 		for (int i = 0; i < f.length; i++) {
 			f[i] = creerForme(r.nextInt(nbFormes), m);
 			f[i].fixerPosition(r.nextInt(200) - 100, r.nextInt(200) - 100);
-			tailles[i] = r.nextInt(20) + 5;
+			f[i].fixerTaille(r.nextInt(100) + 5);
 		}
 
 		while (true) {
 			for (int j = 0; j <= etapesPulsations; j++) {
 				m.effacerTout();
-				int ajout = (int) (amplitudePulsation * (Math.sin(j * 2 * Math.PI / etapesPulsations) + 1) / 2);
 				for (int i = 0; i < f.length; i++) {
-					// f[i].fixerTaille(tailles[i] + ajout);
-					f[i].fixerTaille(300 + ajout);
 					f[i].dessiner();
 				}
 				m.rafraichir();

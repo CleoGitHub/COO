@@ -6,14 +6,11 @@ public class Cercle extends Forme {
 
 	@Override
 	public void dessiner() {
-		// TODO Auto-generated method stub
-		double div = 3;
-		// double avance = Math.tan(Math.toRadians(360/div))*getTaille()/2;
+		double div = 1000;
 
 		MachineTrace mt = getMachineTrace();
 		mt.lever();
 		mt.placer(getTaille()/2,0);
-		// mt.orienter(0);
 		mt.baisser();
 		for(int i = 0; i < div; i++) {
 			double x,y;
