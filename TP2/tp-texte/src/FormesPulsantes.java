@@ -5,10 +5,9 @@ import java.util.Random;
  * @author Guillaume Huard
  */
 public class FormesPulsantes {
-	final static int nbFormes = 8;
+	final static int nbFormes = 4;
 	final static int nbObjets = 3;
-	final static int etapesPulsations = 20;
-	final static int amplitudePulsation = 20;
+	final static int nombreAnimations = 3;
 	final static int delai = 100;
 
 	static Forme creerForme(int type, MachineTrace m) {
@@ -16,36 +15,28 @@ public class FormesPulsantes {
 		case 0:
 			return new Carre(m);
 		case 1:
-			Carre c2 = new Carre(m);
-			c2.setPulsation(etapesPulsations, amplitudePulsation);
-			c2.pulser();
-			c2.rotate();
-			return c2;
-		case 2:
-			Triangle t = new Triangle(m);
-			t.setPulsation(etapesPulsations, amplitudePulsation);
-			t.pulser();
-			return t;
-		case 3:
 			return new Triangle(m);
-		case 4:
-			Losange l = new Losange(m);
-			l.setPulsation(etapesPulsations, amplitudePulsation);
-			l.pulser();
-			return l;
-		case 5:
+		case 2:
 			return new Losange(m);
-		case 6:
-			Cercle cercle = new Cercle(m);
-			cercle.setPulsation(etapesPulsations, amplitudePulsation);
-			cercle.pulser();
-			cercle.rotate();
-			return cercle;
-		case 7:
+		case 3:
 			return new Cercle(m);
-		
 		default:
 			throw new RuntimeException("Forme Inconnue");
+		}
+	}
+	
+	static void addAnimations(Forme f, Boolean[] animations) {
+		for(int i = 0; i < animations.length; i++) {
+			if((animations[i])) {
+				switch(i) {
+					case 0:
+						f.rotate();break;
+					case 1:
+						f.pulser();break;
+					case 2:
+						f.clignoter();break;
+				}
+			}
 		}
 	}
 
@@ -64,17 +55,20 @@ public class FormesPulsantes {
 			f[i] = creerForme(r.nextInt(nbFormes), m);
 			f[i].fixerPosition(r.nextInt(200) - 100, r.nextInt(200) - 100);
 			f[i].fixerTaille(r.nextInt(100) + 5);
+			Boolean[] animations = new Boolean[nombreAnimations];
+			for(int j = 0; j < nombreAnimations; j++) {
+				animations[j] = r.nextBoolean();
+			}
+			addAnimations(f[i], animations);
 		}
 
 		while (true) {
-			for (int j = 0; j <= etapesPulsations; j++) {
 				m.effacerTout();
 				for (int i = 0; i < f.length; i++) {
 					f[i].dessiner();
 				}
 				m.rafraichir();
 				m.attendre(delai);
-			}
 		}
 	}
 }

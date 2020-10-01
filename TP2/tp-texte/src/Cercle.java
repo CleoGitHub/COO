@@ -7,6 +7,8 @@ public class Cercle extends Forme {
 	@Override
 	public void dessiner() {	
 		super.dessiner();
+		if(getTaille() == 0)
+			return;
 		double div = 1000;
 
 		MachineTrace mt = getMachineTrace();

@@ -8,6 +8,9 @@ public class Carre extends Forme{
 	@Override
 	public void dessiner() {	
 		super.dessiner();
+		if(getTaille() == 0)
+			return;
+		
 		MachineTrace mt = getMachineTrace();
 		
 		int hyp = (int) Math.sqrt(this.getTaille()/2*this.getTaille()/2*2);
